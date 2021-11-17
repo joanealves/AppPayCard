@@ -14,9 +14,9 @@ const Carduser = () => {
     return (
         <>
             {user.length > 0 && (
-                <>
+                <div className="CardContainer">
                     {user?.map((item) => (
-                        <div>
+                        <div className="CardConteudo">
                             <img src={item?.img} alt={`Foto ${item?.name}`} />
                             <div>
                                 <h4> {`Nome do usuário ${item?.name}`} </h4>
@@ -25,7 +25,7 @@ const Carduser = () => {
                             <button>Pagar</button>
                         </div>
                     ))}
-                </>
+                </div>
             )}
         </>
     )

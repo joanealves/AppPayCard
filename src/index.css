@@ -1,16 +1,63 @@
 body {
-  text-align: center;
-  margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-align: center;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.App {
+ padding: 5%;
+ 
+}
+
+.CardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.CardConteudo {
+  background: linear-gradient(90deg,#20223a 30%, #3d3e66 80% );
+  margin-bottom: 10px;
+  max-width: 700px ;
+  width: 90%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color:white;
+}
+
+.CardConteudo > div {
+  text-align: start;
+}
+
+img {
+  border-radius: 50%;
+}
+
+.CardConteudo > button {
+  font-size: 18px;
+  width: 110px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 3px;
+  border:none;
+  transition: 0.2s ease;  
+}
+
+.CardConteudo > button:hover {
+  color:#acadd1;
+  border: 2px solid #b3b3ce;
+  width: 115px;
+  background:#20223a;  
 }

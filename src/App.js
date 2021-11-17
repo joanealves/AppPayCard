@@ -1,5 +1,7 @@
 import Carduser from "./components/carduser/Carduser";
 
+import './index.css'
+
 const App = () => {
   return (
     <>
