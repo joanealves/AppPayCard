@@ -35,7 +35,6 @@ const Carduser = () => {
                             </div>
                             <button
                                 type="button"
-                                onRequestClose={handleCloseModalNewTransaction}
                                 onClick={() => handleOpenModalNewTransaction(item)}
                             >
                                 Pagar
@@ -44,15 +43,20 @@ const Carduser = () => {
                     ))}
                 </div>
             )}
-            <Modal
+           <Modal
                 isOpen={isOpenModalNewTransaction}
                 onRequestClose={handleCloseModalNewTransaction}
+                overlayClassName="reactModalOverlay"
+                className="reactModalContent"
             >
-                <h2>
-                    Pagamento para
-                    <span> {userSelected?.name}</span>
-                </h2>
-                <div>
+                <div className="reactModalHeader">
+                    <h2>
+                        Pagamento para
+                    <span>{userSelected?.name}</span>
+                    </h2>
+                    <button onClick={handleCloseModalNewTransaction}>X</button>
+                </div>
+                <form className="formNewTranscation">
                     <input placeholder="R$ 0,00">
                     </input>
                     <select>
@@ -62,8 +66,9 @@ const Carduser = () => {
                             </option>
                         ))}
                     </select>
-                    <button> Pagar </button>
-                </div>
+                    <button>Pagar</button>
+                </form>
+
             </Modal>
         </>
     )
