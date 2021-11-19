@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/AppPayCard/static/css/main.edde85e4.chunk.css",
-    "main.js": "/AppPayCard/static/js/main.28aeb05e.chunk.js",
-    "main.js.map": "/AppPayCard/static/js/main.28aeb05e.chunk.js.map",
+    "main.css": "/AppPayCard/static/css/main.e152ab27.chunk.css",
+    "main.js": "/AppPayCard/static/js/main.307e9950.chunk.js",
+    "main.js.map": "/AppPayCard/static/js/main.307e9950.chunk.js.map",
     "runtime-main.js": "/AppPayCard/static/js/runtime-main.ffa2bbb3.js",
     "runtime-main.js.map": "/AppPayCard/static/js/runtime-main.ffa2bbb3.js.map",
     "static/js/2.3421e821.chunk.js": "/AppPayCard/static/js/2.3421e821.chunk.js",
     "static/js/2.3421e821.chunk.js.map": "/AppPayCard/static/js/2.3421e821.chunk.js.map",
     "index.html": "/AppPayCard/index.html",
-    "static/css/main.edde85e4.chunk.css.map": "/AppPayCard/static/css/main.edde85e4.chunk.css.map",
+    "static/css/main.e152ab27.chunk.css.map": "/AppPayCard/static/css/main.e152ab27.chunk.css.map",
     "static/js/2.3421e821.chunk.js.LICENSE.txt": "/AppPayCard/static/js/2.3421e821.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.ffa2bbb3.js",
     "static/js/2.3421e821.chunk.js",
-    "static/css/main.edde85e4.chunk.css",
-    "static/js/main.28aeb05e.chunk.js"
+    "static/css/main.e152ab27.chunk.css",
+    "static/js/main.307e9950.chunk.js"
   ]
 }
