@@ -165,3 +165,19 @@ img {
     width: 330px;
     height: 45px;
   }
+
+
+  /* Modal Success */
+
+  .sucess {
+    color: #202142;
+    
+  }
+
+  .sucess > div {
+    background: #59fdb1;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-block;
+  }

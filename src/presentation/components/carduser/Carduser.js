@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Modal from 'react-modal';
-import { getUser } from '../../useCases/listUserAPI'
+import { getUser, postTransaction } from '../../useCases/listUserAPI'
 import { cards } from './cards.js'
+
+const transactionPayload = {
+    card_number: '',
+    cvv: 0,
+    expiry_date: '',
+    destination_user_id: 0,
+    value: 0,
+}
 
 const Carduser = () => {
     const [user, setUser] = useState([])
     const [isOpenModalNewTransaction, setIsOpenModalNewTransaction] = useState(false)
+    const [successMessage, setSuccessMessage] = useState(false)
     const [userSelected, setUserSelected] = useState(false)
+    const [values, setValues] = useState(transactionPayload)
 
     useEffect(() => {
         getUser().then(response => setUser(response))
-        
-        }, [])
+
+    }, [])
 
     const handleOpenModalNewTransaction = (item) => {
         setUserSelected(item)
@@ -20,6 +30,30 @@ const Carduser = () => {
 
     const handleCloseModalNewTransaction = () => {
         setIsOpenModalNewTransaction(false)
+        setSuccessMessage(false)
+       
+    }
+
+    const onSubmit = (ev) => {
+       ev.preventDefault()
+        console.log(values)
+        postTransaction(values).then(response => {
+            response.data.status === "Aprovada" && setSuccessMessage(true)
+        })
+        setValues(transactionPayload)
+    }
+
+    const onChange = (ev) => {
+        const { name, value } = ev.target
+        setValues({
+            ...values,
+            [name]: value,
+            destination_user_id: userSelected.id,
+            cvv: value === 'validCard' ? cards[0]?.cvv : cards[1]?.cvv,
+            card_number: value === 'validCard' ? cards[0]?.card_number : cards[1]?.card_number,
+            expiry_date: value === 'validCard' ? cards[0]?.expiry_date : cards[1]?.expiry_date
+        })
+
     }
 
     return (
@@ -43,7 +77,7 @@ const Carduser = () => {
                     ))}
                 </div>
             )}
-           <Modal
+            <Modal
                 isOpen={isOpenModalNewTransaction}
                 onRequestClose={handleCloseModalNewTransaction}
                 overlayClassName="reactModalOverlay"
@@ -52,22 +86,41 @@ const Carduser = () => {
                 <div className="reactModalHeader">
                     <h2>
                         Pagamento para
-                    <span>{userSelected?.name}</span>
+                        <span>{userSelected?.name}</span>
                     </h2>
                     <button onClick={handleCloseModalNewTransaction}>X</button>
                 </div>
-                <form className="formNewTranscation">
-                    <input placeholder="R$ 0,00">
-                    </input>
-                    <select>
-                        {cards?.map((card) => (
-                            <option>
-                                {card?.card_number}
-                            </option>
-                        ))}
-                    </select>
-                    <button>Pagar</button>
-                </form>
+                {!successMessage && (
+                    <form
+                        onSubmit={onSubmit}
+                        className="formNewTranscation"
+                    >
+                        <input
+                            onChange={onChange}
+                            name='value'
+                            placeholder="R$ 0,00"
+                            type='number'
+                        >
+                        </input>
+                        <select
+                            onChange={onChange}
+                            name="card_number"
+                        >
+                            {cards?.map((card) => (
+                                <option value={card?.name} >
+                                    {card?.card_number}
+                                </option>
+                            ))}
+                        </select>
+                        <button type="submit">Pagar</button>
+                    </form>
+                )}
+                {successMessage && (
+                    <div className="sucess">
+                        <h3 >Pagamento Realizado</h3>
+                        <div ></div>
+                    </div>
+                )}
 
             </Modal>
         </>
