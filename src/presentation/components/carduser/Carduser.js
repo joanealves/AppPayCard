@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Modal from 'react-modal';
 import { getUser, postTransaction } from '../../useCases/listUserAPI'
 import { cards } from './cards.js'
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
 const transactionPayload = {
     card_number: '',
@@ -118,7 +119,7 @@ const Carduser = () => {
                 {successMessage && (
                     <div className="sucess">
                         <h3 >Pagamento Realizado</h3>
-                        <div ></div>
+                        <div> <IoIosCheckmarkCircleOutline/> </div>
                     </div>
                 )}
 
