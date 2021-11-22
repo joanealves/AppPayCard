@@ -4,20 +4,16 @@ import { getUser, postTransaction } from '../../useCases/listUserAPI'
 import { cards } from './cards.js'
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
-const transactionPayload = {
-    card_number: '',
-    cvv: 0,
-    expiry_date: '',
-    destination_user_id: 0,
-    value: 0,
-}
 
 const Carduser = () => {
     const [user, setUser] = useState([])
     const [isOpenModalNewTransaction, setIsOpenModalNewTransaction] = useState(false)
     const [successMessage, setSuccessMessage] = useState(false)
+    const [errorMessage, setErrorMessage] = useState(false)
+    const [required, setRequired] = useState(false)
     const [userSelected, setUserSelected] = useState(false)
-    const [values, setValues] = useState(transactionPayload)
+    const [isPrice, setIsPrice] = useState(0)
+    const [isCardNumber, setCardNumber] = useState('')
 
     useEffect(() => {
         getUser().then(response => setUser(response))
@@ -32,28 +28,34 @@ const Carduser = () => {
     const handleCloseModalNewTransaction = () => {
         setIsOpenModalNewTransaction(false)
         setSuccessMessage(false)
-       
+
     }
 
-    const onSubmit = (ev) => {
-       ev.preventDefault()
-        console.log(values)
-        postTransaction(values).then(response => {
-            response.data.status === "Aprovada" && setSuccessMessage(true)
-        })
-        setValues(transactionPayload)
-    }
+    const onSubmit = (e) => {
+        e.preventDefault()
+        let cardValid = isCardNumber === 'validCard' && cards[0]
+        let cardInValid = isCardNumber === "inValidCard" && cards[1]
 
-    const onChange = (ev) => {
-        const { name, value } = ev.target
-        setValues({
-            ...values,
-            [name]: value,
-            destination_user_id: userSelected.id,
-            cvv: value === 'validCard' ? cards[0]?.cvv : cards[1]?.cvv,
-            card_number: value === 'validCard' ? cards[0]?.card_number : cards[1]?.card_number,
-            expiry_date: value === 'validCard' ? cards[0]?.expiry_date : cards[1]?.expiry_date
-        })
+        const result = {
+            card_number: cardValid ? cardValid?.card_number : cardInValid?.card_number,
+            cvv: cardValid ? cardValid?.cvv : cardInValid?.cvv,
+            expiry_date: cardValid ? cardValid?.expiry_date : cardInValid?.expiry_date,
+            destination_user_id: userSelected?.id,
+            value: Number(isPrice),
+        }
+
+        console.log('result', result)
+        if (result?.card_number !== undefined) {
+            postTransaction(result).then(response => {
+                response.data.status === "Aprovada" && setSuccessMessage(true)
+                setIsPrice(0)
+                setCardNumber('')
+                setErrorMessage(false)
+            })
+        } else {
+            isPrice === 0 && setRequired(true)
+            setErrorMessage(true)
+        }
 
     }
 
@@ -97,15 +99,17 @@ const Carduser = () => {
                         className="formNewTranscation"
                     >
                         <input
-                            onChange={onChange}
-                            name='value'
                             placeholder="R$ 0,00"
                             type='number'
+                            value={isPrice}
+                            onChange={(e) => setIsPrice(e.target.value)}
                         >
                         </input>
+                        {required && <p className="error">Digite um valor</p>}
                         <select
-                            onChange={onChange}
                             name="card_number"
+                            value={isCardNumber}
+                            onChange={(e) => setCardNumber(e.target.value)}
                         >
                             {cards?.map((card) => (
                                 <option value={card?.name} >
@@ -113,13 +117,21 @@ const Carduser = () => {
                                 </option>
                             ))}
                         </select>
-                        <button type="submit">Pagar</button>
+                        <button
+                            type="submit"
+                        >Pagar</button>
                     </form>
                 )}
                 {successMessage && (
                     <div className="sucess">
                         <h3 >Pagamento Realizado</h3>
-                        <div> <IoIosCheckmarkCircleOutline/> </div>
+                        <div> <IoIosCheckmarkCircleOutline /> </div>
+                    </div>
+                )}
+                {errorMessage && (
+                    <div className="errorMessage">
+                        <h3 >Erro ao realizar pagamento</h3>
+                        <div>  </div>
                     </div>
                 )}
 
